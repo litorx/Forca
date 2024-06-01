@@ -1,38 +1,40 @@
 import random
 import time
-def jogarDenovo():
-    jogar()
-def jogar():
+
+def playAgain():
+    play()
+
+def play():
     c = 's'
     print("""
             ----------- MENU -----------
-            |   Digite 1 para jogar      |
-            |   Digite 2 para sair       |
-            |   Digite 3 para um fato    |
+            |   Enter 1 to play          |
+            |   Enter 2 to exit          |
+            |   Enter 3 for a fact       |
             ----------------------------
         """)
-    Digitado = input()
-    if Digitado not in ('1', '2', '3'): #Fora das opções
+    Entered = input()
+    if Entered not in ('1', '2', '3'): #Out of options
         print("\x1b[2J\x1b[1;1H")
-        print("Essa opção não existe")
-        jogar()
+        print("This option does not exist")
+        play()
 
     while True:
-        if Digitado == "1":
+        if Entered == "1":
             c = 's'
-            while c == 's':     #Enquanto for S, sortear outra palavra da lista
-                listaForca = ["patricia","chico","alexandre","simone","sergio","bruno","alberto","junior","julia","luciana"]
-                Sorte = random.choice(listaForca)
+            while c == 's':     #While it is S, select another word from the list
+                wordList = ["patricia","chico","alexandre","simone","sergio","bruno","alberto","junior","julia","luciana"]
+                Chosen = random.choice(wordList)
                 print("\x1b[2J\x1b[1;1H")
-                print("                         Adivinhe o nome do professor")
-                long = len(Sorte)
-                print(f"                A palavra tem {long} caracteres apenas minusculos")
+                print("                         Guess the teacher's name")
+                long = len(Chosen)
+                print(f"                The word has {long} characters only lowercase")
                 print("                              ", long*"_ ")
                 print("""
-                    ------------- OPÇÕES --------------
-                    |   Aperte enter para continuar     |
-                    |   Digite s  para trocar a palavra |
-                    |   Digite 1 para sair              |
+                    ------------- OPTIONS --------------
+                    |   Press enter to continue       |
+                    |   Type s to change the word      |
+                    |   Enter 1 to exit                 |
                     -----------------------------------
                 """)
                 c = input("")
@@ -40,162 +42,162 @@ def jogar():
                 if c == '1':
                     print("\x1b[2J\x1b[1;1H")
                     print("""
-                        Você saiu do jogo
+                        You exited the game
                     """)
                     exit()
 
-            erro = 0
-            certo = 0
-            pontos = long * "_"
-            ganhou = False
-            comeca_time = time.time()   #  Quando sair do while iniciar timer
+            error = 0
+            correct = 0
+            points = long * "_"
+            won = False
+            start_time = time.time()   #  When exiting the while loop, start timer
             print("\x1b[2J\x1b[1;1H")
-            print("Você tem 1 minuto")
+            print("You have 1 minute")
             while True:
-                if erro != 6 :
-                    print(f"Digite 1 para parar")
-                    print(f"Digite uma letra: {pontos}")
-                    letra = input("")
-                if letra in pontos:
-                    print("Você já digitou essa letra antes. Por favor, tente novamente.")
+                if error != 6 :
+                    print(f"Type 1 to stop")
+                    print(f"Type a letter: {points}")
+                    letter = input("")
+                if letter in points:
+                    print("You have already typed this letter before. Please try again.")
                     continue
-                if letra == '1':
+                if letter == '1':
                     print("\x1b[2J\x1b[1;1H")
-                    print("Você parou o jogo")
-                    jogar()
+                    print("You stopped the game")
+                    play()
 
-                acaba_time = time.time() - comeca_time 
-                if acaba_time >= 60:  #Acabar em 60 segundos
+                end_time = time.time() - start_time 
+                if end_time >= 60:  #End in 60 seconds
                     print("\x1b[2J\x1b[1;1H")
-                    print("O tempo acabou!")
-                    jogar()
-                if letra in Sorte and letra != "":
-                    for i in range(len(Sorte))  :#Vai verificar se a letra digitada esta dentro da palavra sorteada, entra, verifica a posicao do i, sai e vai indo ate acabar a palavra
-                        if Sorte[i] == letra:     
-                            pontos = pontos[:i] + letra + pontos[i + 1:]    # Se ela é encontrada, troca pelo lugar que ela foi encontrada e continua verificando
-                            certo  = certo + 1  #Se achar a certa, aumenta os certos para cada achada
+                    print("Time's up!")
+                    play()
+                if letter in Chosen and letter != "":
+                    for i in range(len(Chosen))  :#Will check if the entered letter is within the chosen word, enters, checks the position of i, exits and goes on until the word ends
+                        if Chosen[i] == letter:     
+                            points = points[:i] + letter + points[i + 1:]    # If it is found, replace it with the place it was found and continue checking
+                            correct  = correct + 1  #If it finds the correct one, it increases the correct ones for each found
                     print("\x1b[2J\x1b[1;1H")
                     print(f"""
-                        Você acertou
-                        {pontos}
+                        You got it right
+                        {points}
                     """)
 
-                    if pontos == Sorte:     #Se a o tamanho de pontos for igual a da palavra, ele ganha
-                        ganhou = True
+                    if points == Chosen:     #If the length of points is equal to the word, he wins
+                        won = True
                         break
                 
-                elif letra != '1' and letra not in Sorte:   #Verifica se esta errado
-                        erro  = erro + 1
+                elif letter != '1' and letter not in Chosen:   #Checks if it is wrong
+                        error  = error + 1
                         
-                        if erro == 1:
+                        if error == 1:
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                Você errou
+                                You got it wrong
                                     |
                                     O
                                    /|\ 
                                    / 
-                        Você tem mais 5 chances 
+                        You have 5 more chances 
                             """)
-                        elif erro == 2:
+                        elif error == 2:
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                Você errou
+                                You got it wrong
                                     |
                                     O
                                    /|\ 
 
-                        Você tem mais 4 chances  
+                        You have 4 more chances  
                             """)
-                        elif erro == 3:
+                        elif error == 3:
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                Você errou
+                                You got it wrong
                                     |
                                     O
                                    /| 
 
-                        Você tem mais 3 chances
+                        You have 3 more chances
                             """)
-                        elif erro == 4:
+                        elif error == 4:
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                Você errou
+                                You got it wrong
                                     |
                                     O
                                     |
 
-                        Você tem mais 2 chances
+                        You have 2 more chances
                             """)
-                        elif erro == 5:
+                        elif error == 5:
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                Você errou
+                                You got it wrong
                                     |
                                     O
 
 
-                        Você tem mais 1 chance
+                        You have 1 more chance
                             """)
-                        elif erro == 6:     #Se a quantidade de erros for igual a 6, perde
+                        elif error == 6:     #If the number of errors is equal to 6, lose
                             print("\x1b[2J\x1b[1;1H")
                             print("""
-                                --------- Você perdeu -----------
-                                |   Digite 1  para jogar de novo    |
-                                |   Digite 2 para sair              |
+                                --------- You lost -----------
+                                |   Enter 1 to play again     |
+                                |   Enter 2 to exit           |
                                 ----------------------------------
                             """)
-                            novo = input("")
-                            if novo == '1':
+                            new = input("")
+                            if new == '1':
                                 print("\x1b[2J\x1b[1;1H")
-                                jogarDenovo()
-                            elif novo == '2':
+                                playAgain()
+                            elif new == '2':
                                 print("\x1b[2J\x1b[1;1H")
-                                print("Você encerrou o jogo")
+                                print("You closed the game")
                                 exit()
                             else:
                                 print("\x1b[2J\x1b[1;1H")
                                 print("""
-                                Essa opção não existe
+                                This option does not exist
                                 """)
                                 break
 
-            if ganhou:
+            if won:
                 print("\x1b[2J\x1b[1;1H")
                 print(f"""
-                     -------- Parabéns! Você ganhou!  --------
-                    |               O nome era                |
-                                     {Sorte}
+                     -------- Congratulations! You won!  --------
+                    |               The name was                |
+                                     {Chosen}
                                                      
-                    |   Digite 1 para jogar de novo           |
-                    |   Digite 2 para sair                    |
+                    |   Enter 1 to play again                   |
+                    |   Enter 2 to exit                         |
                      -----------------------------------------
                 """)
-                novo = input("")
-                if novo == '1':
+                new = input("")
+                if new == '1':
                     print("\x1b[2J\x1b[1;1H")
-                    jogar()
-                elif novo == '2':
+                    play()
+                elif new == '2':
                     print("\x1b[2J\x1b[1;1H")
                     print("""
-                    Você encerrou o jogo
+                    You closed the game
                     """)
                     exit()
                 else:
                     print("\x1b[2J\x1b[1;1H")
                     print("""
-                    Essa opção não existe
+                    This option does not exist
                     """)
                     break
 
-        elif Digitado == "2":
+        elif Entered == "2":
             print("\x1b[2J\x1b[1;1H")
             print("""
-                Você fechou o jogo
+                You closed the game
             """)
             break
 
-        elif Digitado == "3":
+        elif Entered == "3":
             print("\x1b[2J\x1b[1;1H")
             print("""  
 ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣧⣀⣼⠇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄                                             ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣧⣀⣼⠇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
@@ -220,4 +222,4 @@ def jogar():
             
             exit()
         
-jogar()
+play() 
